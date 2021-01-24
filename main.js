@@ -1,5 +1,5 @@
-class User{
-    constructor(Fname,Lname,email,password){
+class User {
+    constructor(Fname, Lname, email, password) {
         this.Fname = Fname;
         this.Lname = Lname;
         this.email = email;
@@ -15,53 +15,54 @@ const LAST_NAME = document.querySelector('.lastName');
 const EMAIL = document.querySelector('.email');
 const PASSWORD = document.querySelector('.password');
 
+let users = [];
+
+
 ADD.addEventListener('click', () => {
     let counter = 0;
-    if(document.querySelector('.firstName').validity.patternMismatch || document.querySelector('.firstName').validity.valueMissing ){
+    if (document.querySelector('.firstName').validity.patternMismatch || document.querySelector('.firstName').validity.valueMissing) {
         document.querySelector('.firstName').style.border = '2px solid red';
     }
-    if(document.querySelector('.firstName').validity.valid){
+    if (document.querySelector('.firstName').validity.valid) {
         document.querySelector('.firstName').style.border = '2px solid green';
         counter++;
     }
-    if(document.querySelector('.lastName').validity.patternMismatch || document.querySelector('.lastName').validity.valueMissing ){
+    if (document.querySelector('.lastName').validity.patternMismatch || document.querySelector('.lastName').validity.valueMissing) {
         document.querySelector('.lastName').style.border = '2px solid red';
     }
-    if(document.querySelector('.lastName').validity.valid){
+    if (document.querySelector('.lastName').validity.valid) {
         document.querySelector('.lastName').style.border = '2px solid green';
         counter++;
     }
-    if(document.querySelector('.email').validity.patternMismatch || document.querySelector('.email').validity.valueMissing ){
+    if (document.querySelector('.email').validity.patternMismatch || document.querySelector('.email').validity.valueMissing) {
         document.querySelector('.email').style.border = '2px solid red';
     }
-    if(document.querySelector('.email').validity.valid){
+    if (document.querySelector('.email').validity.valid) {
         document.querySelector('.email').style.border = '2px solid green';
         counter++;
     }
-    if(document.querySelector('.password').validity.patternMismatch || document.querySelector('.password').validity.valueMissing ){
+    if (document.querySelector('.password').validity.patternMismatch || document.querySelector('.password').validity.valueMissing) {
         document.querySelector('.password').style.border = '2px solid red';
     }
-    if(document.querySelector('.password').validity.valid){
+    if (document.querySelector('.password').validity.valid) {
         document.querySelector('.password').style.border = '2px solid green';
         counter++;
     }
 
-    if(counter == 4){
-        let users = [];
-        let newUser = new User(FIRST_NAME.value,LAST_NAME.value,EMAIL.value,PASSWORD.value);
-        if(localStorage.getItem('users')){
+    if (counter == 4) {
+        let newUser = new User(FIRST_NAME.value, LAST_NAME.value, EMAIL.value, PASSWORD.value);
+        if (localStorage.getItem('users')) {
             users = JSON.parse(localStorage.getItem('users'));
-            if(users.some(user => user.email === newUser.email)){
-                alert('такий корустувач вже є')
+            if (users.some(user => user.email === newUser.email)) {
+                alert('Email adress alredy exist!!!')
             }
-            else{
+            else {
                 users.push(newUser);
             }
         }
-        else{
+        else {
             users.push(newUser);
         }
-        console.log(users);
         localStorage.setItem('users', JSON.stringify(users));
         FIRST_NAME.value = '';
         LAST_NAME.value = '';
@@ -72,22 +73,44 @@ ADD.addEventListener('click', () => {
 })
 
 
-document.querySelector('.signIN_BTN').addEventListener('click',function(){
+document.querySelector('.signIN_BTN').addEventListener('click', function () {
     document.querySelector('.signUP').style.display = 'none'
     document.querySelector('.signIN').style.display = 'block'
 })
-document.querySelector('.signUP_BTN').addEventListener('click',function(){
+document.querySelector('.signUP_BTN').addEventListener('click', function () {
     document.querySelector('.signUP').style.display = 'block'
     document.querySelector('.signIN').style.display = 'none'
 })
 
 
-document.querySelector('.login').addEventListener('click',function(){
+document.querySelector('.login').addEventListener('click', function () {
 
     let EMAIL = document.querySelector('.email_login').value
     let PASSWORD = document.querySelector('.password_login').value
-
+    for (let i = 0; i < users.length; i++) {
+        if (users[i].email == EMAIL) {
+            if (users[i].password == PASSWORD) {
+                document.querySelector('.signIN').style.display = 'none'
+                document.querySelector('.profile').style.display = 'block'
+                document.querySelector('.profile_name').textContent = `${users[i].Fname} ${users[i].Lname}`
+                document.querySelector('.profile_email').textContent = `${users[i].email}`
+            }
+            else{
+                alert('Incorect values!!!')
+            }
+        }
+    }
 
 })
-console.log(users);
+
+
+document.querySelector('.signOUT_BTN').addEventListener('click',function(){
+    document.querySelector('.signIN').style.display = 'block'
+    document.querySelector('.profile').style.display = 'none'
+    document.querySelector('.profile_name').textContent = ``
+    document.querySelector('.profile_email').textContent = ``
+    document.querySelector('.email_login').value = ''
+    document.querySelector('.password_login').value = ''
+})
+
 
