@@ -11,12 +11,22 @@
     <div class="signUP">
         <p>Please sign up</p>
 
-        <input type="text" placeholder="First Name" class="firstName">
-        <input type="text" placeholder="Last Name" class="lastName">
-        <input type="email" placeholder="Email address" class="email">
-        <input type="password" placeholder="Password" class="password">
+        <input type="text" placeholder="First Name" class="firstName" required pattern="^[a-zA-z]{1,20}$">
+        <input type="text" placeholder="Last Name" class="lastName" required pattern="^[a-zA-z]{1,20}$">
+        <input type="email" placeholder="Email address" class="email" required pattern="^[^@]+@[^@]+$">
+        <input type="password" placeholder="Password" class="password" required pattern="^\w{8,15}$">
 
         <button type="button" class="add">Sign Up</button>
+        <button type="button" style="margin-top: 20px;background-color: brown;" class="signIN_BTN">Sign in now</button>
+    </div>
+
+
+    <div class="signIN">
+        <p>Please sign in</p>
+        <input type="email" placeholder="Email address" class="email_login" required pattern="^[^@]+@[^@]+$">
+        <input type="password" placeholder="Password" class="password_login" required pattern="^\w{8,15}$">
+        <button type="button" class="login">Sign in</button>
+        <button type="button" class="signUP_BTN">Sign Up now</button>
     </div>
 
     <script src="main.js"></script>

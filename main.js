@@ -8,7 +8,7 @@ class User{
     }
 }
 
-
+// localStorage.clear()
 const ADD = document.querySelector('.add');
 const FIRST_NAME = document.querySelector('.firstName');
 const LAST_NAME = document.querySelector('.lastName');
@@ -16,27 +16,78 @@ const EMAIL = document.querySelector('.email');
 const PASSWORD = document.querySelector('.password');
 
 ADD.addEventListener('click', () => {
-    let users = [];
-    let newUser = new User(FIRST_NAME.value,LAST_NAME.value,EMAIL.value,PASSWORD.value);
-    if(localStorage.getItem('users')){
-        users = JSON.parse(localStorage.getItem('users'));
-        if(users.some(user => user.email === newUser.email)){
-            alert('такий корустувач вже є')
+    let counter = 0;
+    if(document.querySelector('.firstName').validity.patternMismatch || document.querySelector('.firstName').validity.valueMissing ){
+        document.querySelector('.firstName').style.border = '2px solid red';
+    }
+    if(document.querySelector('.firstName').validity.valid){
+        document.querySelector('.firstName').style.border = '2px solid green';
+        counter++;
+    }
+    if(document.querySelector('.lastName').validity.patternMismatch || document.querySelector('.lastName').validity.valueMissing ){
+        document.querySelector('.lastName').style.border = '2px solid red';
+    }
+    if(document.querySelector('.lastName').validity.valid){
+        document.querySelector('.lastName').style.border = '2px solid green';
+        counter++;
+    }
+    if(document.querySelector('.email').validity.patternMismatch || document.querySelector('.email').validity.valueMissing ){
+        document.querySelector('.email').style.border = '2px solid red';
+    }
+    if(document.querySelector('.email').validity.valid){
+        document.querySelector('.email').style.border = '2px solid green';
+        counter++;
+    }
+    if(document.querySelector('.password').validity.patternMismatch || document.querySelector('.password').validity.valueMissing ){
+        document.querySelector('.password').style.border = '2px solid red';
+    }
+    if(document.querySelector('.password').validity.valid){
+        document.querySelector('.password').style.border = '2px solid green';
+        counter++;
+    }
+
+    if(counter == 4){
+        let users = [];
+        let newUser = new User(FIRST_NAME.value,LAST_NAME.value,EMAIL.value,PASSWORD.value);
+        if(localStorage.getItem('users')){
+            users = JSON.parse(localStorage.getItem('users'));
+            if(users.some(user => user.email === newUser.email)){
+                alert('такий корустувач вже є')
+            }
+            else{
+                users.push(newUser);
+            }
         }
         else{
             users.push(newUser);
         }
+        console.log(users);
+        localStorage.setItem('users', JSON.stringify(users));
+        FIRST_NAME.value = '';
+        LAST_NAME.value = '';
+        EMAIL.value = '';
+        PASSWORD.value = '';
     }
-    else{
-        users.push(newUser);
-    }
-    console.log(users);
-    localStorage.setItem('users', JSON.stringify(users));
-    FIRST_NAME.value = '';
-    LAST_NAME.value = '';
-    EMAIL.value = '';
-    PASSWORD.value = '';
+
 })
 
 
-// localStorage.clear()
+document.querySelector('.signIN_BTN').addEventListener('click',function(){
+    document.querySelector('.signUP').style.display = 'none'
+    document.querySelector('.signIN').style.display = 'block'
+})
+document.querySelector('.signUP_BTN').addEventListener('click',function(){
+    document.querySelector('.signUP').style.display = 'block'
+    document.querySelector('.signIN').style.display = 'none'
+})
+
+
+document.querySelector('.login').addEventListener('click',function(){
+
+    let EMAIL = document.querySelector('.email_login').value
+    let PASSWORD = document.querySelector('.password_login').value
+
+
+})
+console.log(users);
+
